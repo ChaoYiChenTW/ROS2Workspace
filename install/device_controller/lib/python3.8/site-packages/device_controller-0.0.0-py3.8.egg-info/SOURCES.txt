@@ -9,6 +9,7 @@ setup.py
 ../../build/device_controller/device_controller.egg-info/top_level.txt
 ../../build/device_controller/device_controller.egg-info/zip-safe
 device_controller/__init__.py
+device_controller/led.py
 device_controller/push_button.py
 resource/device_controller
 test/test_copyright.py

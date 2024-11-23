@@ -1,3 +1,4 @@
 [console_scripts]
+led = device_controller.led:main
 push_button = device_controller.push_button:main
 
