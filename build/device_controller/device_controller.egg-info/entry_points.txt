@@ -1,0 +1,3 @@
+[console_scripts]
+push_button = device_controller.push_button:main
+
