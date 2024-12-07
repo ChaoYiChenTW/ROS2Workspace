@@ -42,7 +42,7 @@ Date: 2024Dec07
 import rclpy  # ROS 2 Python client library.
 from rclpy.node import Node  # Base class for creating ROS 2 nodes.
 from std_msgs.msg import Float32  # Message type for subscription.
-from qos_profile import QoSProfile  # Custom QoS profile for publishers and subscribers.
+from rclpy.qos import QoSProfile  # Custom QoS profile for publishers and subscribers.
 
 # Modules for hardware control
 from gpiozero import PWMLED  # Class for controlling GPIO-connected LEDs.
