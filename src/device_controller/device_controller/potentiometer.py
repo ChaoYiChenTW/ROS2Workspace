@@ -49,10 +49,10 @@ Dependencies:
 - std_msgs for Float32 message type
 
 Example Command:
-$ ros2 run <package_name> potentiometer_node --ros-args -p channel:=0
+$ ros2 run device_controller potentiometer_node --ros-args -p channel:=0
 
 Author: Chao-Yi Chen
-Date: 2024Nov27
+Date: 2024Dec07
 """
 
 import rclpy  # ROS 2 Python client library.

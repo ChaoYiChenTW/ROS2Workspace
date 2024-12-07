@@ -1,25 +1,31 @@
 """
-ROS 2 LED Control Node
+ROS 2 Node: LEDToggleNode
 
-This script defines a ROS 2 node (`LEDNode`) that subscribes to a topic
-and controls an LED connected to a GPIO pin on a Raspberry Pi. The node
-listens to messages of type `Bool` published on the "button/press_status"
-topic. Based on the received message, the LED is turned on or off.
+This script implements a ROS 2 node that controls an LED connected to a GPIO pin on a Raspberry Pi.
+The LED's state is toggled based on messages received on the "button/press_status" topic.
 
 Key Features:
-- Configurable GPIO pin for the LED via a ROS 2 parameter.
-- Subscribes to a topic to control the LED's state (on/off).
-- Logs LED state changes for monitoring purposes.
+- Subscribes to the "button/press_status" topic to receive Bool messages.
+- Turns the LED on if the message data is `True` and off if it is `False`.
+- Uses the gpiozero library to control the LED via the specified GPIO pin.
+- Allows configuring the GPIO pin via a ROS 2 parameter ("gpio_pin").
 
-Prerequisites:
-- A Raspberry Pi with ROS 2 installed.
-- An LED connected to a GPIO pin (with a current-limiting resistor).
-- Another ROS 2 node publishing `Bool` messages on the "button/press_status" topic.
+Wiring Instructions:
+- Connect the LED's positive leg to the specified GPIO pin on the Raspberry Pi (default: GPIO 13).
+- Connect the LED's negative leg to a resistor and then to the Raspberry Pi's ground.
 
-How to Use:
-1. Connect the LED to the Raspberry Pi GPIO pin as specified in the parameter.
-2. Ensure another ROS 2 node publishes `Bool` messages on "button/press_status".
-3. Run this script using `ros2 run` and observe the LED's behavior.
+Usage:
+- Ensure the LED is connected to the correct GPIO pin and ground as described above.
+- Run the script as a ROS 2 node.
+- Publish Bool messages to the "button/press_status" topic to control the LED's state.
+
+Example Command:
+$ ros2 run device_controller led_toggle_node --ros-args -p gpio_pin:=13
+
+Dependencies:
+- ROS 2 Python client library (`rclpy`)
+- gpiozero for LED control
+- std_msgs for Bool message type
 
 Author: Chao-Yi Chen
 Date: 2024Nov27
@@ -34,14 +40,14 @@ from std_msgs.msg import Bool  # Message type for subscription.
 from gpiozero import LED  # Class for controlling GPIO-connected LEDs.
 
 
-class LEDNode(Node):
+class LEDToggleNode(Node):
     """
     A ROS 2 node that controls an LED based on the state of messages
     received on the "button/press_status" topic.
     """
 
     def __init__(self):
-        super().__init__("led_node")  # Initialize the node with the name "led_node".
+        super().__init__("led_toggle_node")  # Initialize the node with a name.
 
         # Declare a parameter for the GPIO pin connected to the LED, with a default value of 13.
         self.declare_parameter("gpio_pin", 13)
@@ -79,8 +85,8 @@ def main(args=None):
     Entry point for the script. Initializes the ROS 2 environment,
     creates the LEDNode, and spins it to keep it alive.
     """
-    rclpy.init(args=args)  # Initialize the ROS 2 Python client library.
-    node = LEDNode()  # Create an instance of the LEDNode.
+    rclpy.init(args=args)  # Initialize the ROS 2 client library.
+    node = LEDToggleNode()  # Create an instance of the LEDToggleNode.
     try:
         rclpy.spin(node)  # Keep the node running, listening for messages.
     except KeyboardInterrupt:
