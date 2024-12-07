@@ -114,7 +114,7 @@ class PotentiometerNode(Node):
         potentiometer_value = self.adc.value
         msg = Float32()
         msg.data = potentiometer_value
-        self.publisher_.publish(msg)
+        self.publisher_value.publish(msg)
         self.get_logger().info(f"Published potentiometer value: {potentiometer_value}")
 
     def publish_potentiometer_voltage(self):
@@ -124,7 +124,7 @@ class PotentiometerNode(Node):
         potentiometer_voltage = self.adc.voltage
         msg = Float32()
         msg.data = potentiometer_voltage
-        self.publisher_.publish(msg)
+        self.publisher_voltage.publish(msg)
         self.get_logger().info(
             f"Published potentiometer voltage: {potentiometer_voltage}"
         )
