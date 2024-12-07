@@ -21,6 +21,7 @@ setup(
         "console_scripts": [
             "push_button = device_controller.push_button:main",
             "led = device_controller.led:main",
+            "potentiometer = device_controller.potentiometer:main",
         ],
     },
 )
