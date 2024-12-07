@@ -54,6 +54,7 @@ $ ros2 run <package_name> potentiometer_node --ros-args -p channel:=0
 Author: Chao-Yi Chen
 Date: 2024Nov27
 """
+
 import rclpy  # ROS 2 Python client library.
 from rclpy.node import Node  # Base class for creating ROS 2 nodes.
 from rclpy.qos import (
@@ -64,9 +65,12 @@ from std_msgs.msg import Float32  # Message type for publishing potentiometer re
 # Modules for hardware control
 from gpiozero import MCP3008  # Class for controlling MCP3008 ADC.
 
+
 class PotentiometerNode(Node):
-    def __init__(self);
-        super().__init__("potentiometer_node")  # Initialize the node with the name "potentiometer_node".
+    def __init__(self):
+        super().__init__(
+            "potentiometer_node"
+        )  # Initialize the node with the name "potentiometer_node".
 
         # Declare a parameter for the channel number of the MCP3008 ADC connected to the potentiometer.
         self.declare_parameter("channel", 0)
@@ -75,7 +79,9 @@ class PotentiometerNode(Node):
         channel = self.get_parameter("channel").get_parameter_value().integer_value
 
         # Initialize the MCP3008 object with the specified channel.
-        self.adc = MCP3008(channel=0, clock_pin=11, mosi_pin=10, miso_pin=9, select_pin=8)
+        self.adc = MCP3008(
+            channel=0, clock_pin=11, mosi_pin=10, miso_pin=9, select_pin=8
+        )
 
         # Define a QoS profile for the publisher.
         qos_profile = QoSProfile(depth=10)
@@ -92,7 +98,9 @@ class PotentiometerNode(Node):
         self.timer = self.create_timer(timer_period, self.timer_callback)
 
         # Log a message indicating the node has started and which channel is being used.
-        self.get_logger().info(f"PotentiometerNode has been started on channel {channel}.")
+        self.get_logger().info(
+            f"PotentiometerNode has been started on channel {channel}."
+        )
 
     def timer_callback(self):
         self.publish_potentiometer_value()
@@ -117,7 +125,9 @@ class PotentiometerNode(Node):
         msg = Float32()
         msg.data = potentiometer_voltage
         self.publisher_.publish(msg)
-        self.get_logger().info(f"Published potentiometer voltage: {potentiometer_voltage}")
+        self.get_logger().info(
+            f"Published potentiometer voltage: {potentiometer_voltage}"
+        )
 
 
 def main(args=None):
